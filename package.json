@@ -21,5 +21,7 @@
   "devDependencies": {
     "@skpm/builder": "^0.5.11"
   },
-  "author": "Adam Thompson <athompson@newvisions.org>"
+  "author": "Adam Thompson <athompson@newvisions.org>",
+  "repository": "https://github.com/TheSonOfThomp/Batch-Export-Rename",
+  "description": "Use this plugin to batch export layers with consistent filenames"
 }
