@@ -1,0 +1,21 @@
+{
+  "compatibleVersion": 3,
+  "bundleVersion": 1,
+  "icon": "icon.png",
+  "name": "Batch Export",
+  "identifier": "com.adamthompson.sketch.batch-export-rename",
+  "commands": [
+    {
+      "name": "Batch Export & Rename",
+      "identifier": "rename-export",
+      "script": "./rename-export.js",
+      "shortcut": "ctrl shift e"
+    }
+  ],
+  "menu": {
+    "title": "Batch Export & Rename",
+    "items": [
+      "rename-export"
+    ]
+  }
+}
