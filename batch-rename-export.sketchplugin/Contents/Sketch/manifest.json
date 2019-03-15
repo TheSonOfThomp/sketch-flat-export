@@ -8,7 +8,7 @@
     {
       "name": "Batch Export & Rename",
       "identifier": "batch-rename-export",
-      "script": "./rename-export.js",
+      "script": "rename-export.js",
       "shortcut": "ctrl shift e"
     }
   ],
@@ -17,5 +17,11 @@
     "items": [
       "batch-rename-export"
     ]
-  }
+  },
+  "version": "2.0.1",
+  "description": "Use this plugin to batch export layers with consistent filenames",
+  "disableCocoaScriptPreprocessor": true,
+  "appcast": "https://raw.githubusercontent.com/TheSonOfThomp/Batch-Export-Rename/master/.appcast.xml",
+  "author": "Adam Thompson",
+  "authorEmail": "athompson@newvisions.org"
 }

@@ -1,13 +1,13 @@
 {
-  "name": "rename-export",
+  "name": "batch-rename-export",
   "version": "2.0.1",
   "engines": {
     "sketch": ">=3.0"
   },
   "skpm": {
-    "name": "rename-export",
+    "name": "batch-rename-export",
     "manifest": "src/manifest.json",
-    "main": "rename-export.sketchplugin",
+    "main": "batch-rename-export.sketchplugin",
     "assets": [
       "assets/**/*"
     ]

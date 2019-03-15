@@ -4,7 +4,6 @@ import sketch from 'sketch'
 // -------------------------------------------------
 // --------------- Dialog formatting ---------------
 // -------------------------------------------------
-
 function rect(x, y, w, h) {
   var rect = NSMakeRect(x, y, w, h)
   return rect;
@@ -42,7 +41,6 @@ function createTextbox(frame, size, bold, text) {
   return label;
 }
 
-
 function createSelect(frame, items) {
   var select = NSPopUpButton.alloc().initWithFrame(frame);
   for (var i = 0; i < items.length; i++) {
@@ -54,7 +52,6 @@ function createSelect(frame, items) {
   }
   return select;
 }
-
 
 function createCheckbox(frame, name, value, onstate, enabled) {
   var checkbox = NSButton.alloc().initWithFrame(frame);
@@ -84,8 +81,6 @@ function toKebab(str) {
 function toCamel(str){
   if (typeof str !== 'string') return ""
   str = str.toLowerCase().split(/[\ \\\/\_\-\–\—]/g)
-    // .split('-').join(' ')
-  // str = str.toLowerCase().split(' ');
   for (var i = 0; i < str.length; i++) {
     str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
   }

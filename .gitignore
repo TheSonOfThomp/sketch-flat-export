@@ -1,5 +1,5 @@
 # build artifacts
-rename-export.sketchplugin
+# *.sketchplugin
 
 # npm
 node_modules
