@@ -221,14 +221,16 @@ function toCamel(str) {
       value: ['kebab-case', 'snake_case', 'camelCase']
     }, {
       type: 'checkbox',
+      id: 'ignoreSlashes',
+      label: 'Ignore Slashes',
+      value: 'slashes',
+      default: false
+    }, {
+      type: 'checkbox',
       id: 'prefixCheckbox',
       label: 'Add Prefix',
       value: 'prefix',
       default: false
-    }, {
-      type: 'label',
-      id: 'prefixLabel',
-      value: 'Prefix'
     }, {
       type: 'text',
       value: ''
@@ -262,7 +264,8 @@ function toCamel(str) {
 
 
     var caseIndex = viewContents[1].indexOfSelectedItem();
-    var showPrefix = viewContents[2].state();
+    var ignoreSlashes = viewContents[2].state();
+    var showPrefix = viewContents[3].state();
     var prefix = viewContents[4].stringValue(); // Create an Open dialog
 
     var open = NSOpenPanel.openPanel();
@@ -279,6 +282,7 @@ function toCamel(str) {
 
       layers.forEach(function (layer) {
         var name = showPrefix ? prefix + layer.name : layer.name;
+        name = ignoreSlashes ? name.substring(name.lastIndexOf('/') + 1, name.length) : name;
 
         if (caseIndex === 0) {
           layer.name = toKebab(name);

@@ -122,15 +122,17 @@ export default function(context) {
       },
       {
         type: 'checkbox',
+        id: 'ignoreSlashes',
+        label: 'Ignore Slashes',
+        value: 'slashes',
+        default: false
+      },
+      {
+        type: 'checkbox',
         id: 'prefixCheckbox',
         label: 'Add Prefix',
         value: 'prefix',
         default: false
-      },
-      {
-        type: 'label',
-        id: 'prefixLabel',
-        value: 'Prefix'
       },
       {
         type: 'text',
@@ -168,7 +170,8 @@ export default function(context) {
 
     // Save the responses from that modal
     var caseIndex = viewContents[1].indexOfSelectedItem();
-    var showPrefix = viewContents[2].state();
+    var ignoreSlashes = viewContents[2].state();
+    var showPrefix = viewContents[3].state();
     var prefix = viewContents[4].stringValue()
 
     // Create an Open dialog
@@ -186,6 +189,8 @@ export default function(context) {
       // Change the file names appropriately
       layers.forEach(layer => {
         let name = showPrefix ? prefix + layer.name : layer.name
+        name = ignoreSlashes ? name.substring(name.lastIndexOf('/') + 1, name.length) : name
+
         if (caseIndex === 0) {
           layer.name = toKebab(name)
           console.log(layer.name)
