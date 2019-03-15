@@ -18,6 +18,15 @@ To use, press `⌃ Ctrl` + `⇧ Shift` + `E` to open the dialog.
 
 ![dialog](assets/img-dialog.png)
 
-Choose your filename formay, optionally add a prefix, and then pick the directory to save the files.
+### Filename format
+Choose between `kebab-case`, `snake_case` or `camelCase`
+
+### Ignore slashes
+Ignores any slashes as used in symbols
+e.g. `Icon/Search` exports as `search.svg`
+
+### Add Prefix
+Text to add to the beginning of the filename
+e.g. `icon-seach.svg`
 
 ***Note: Currently only `svg` files are supported.***
