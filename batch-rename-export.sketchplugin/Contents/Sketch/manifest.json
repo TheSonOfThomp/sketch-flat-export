@@ -18,7 +18,7 @@
       "batch-rename-export"
     ]
   },
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Use this plugin to batch export layers with consistent filenames",
   "disableCocoaScriptPreprocessor": true,
   "appcast": "https://raw.githubusercontent.com/TheSonOfThomp/Batch-Export-Rename/master/.appcast.xml",
