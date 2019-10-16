@@ -129,13 +129,19 @@ function createLabel(frame, size, bold, text) {
   return label;
 }
 
-function createTextbox(frame, size, bold, text) {
+function createTextbox(_ref) {
+  var frame = _ref.frame,
+      size = _ref.size,
+      bold = _ref.bold,
+      text = _ref.text,
+      placeholder = _ref.placeholder;
   var label = NSTextField.alloc().initWithFrame(frame);
   label.setStringValue(text);
   label.setBezeled(true);
   label.setDrawsBackground(true);
   label.setEditable(true);
   label.setSelectable(true);
+  label.placeholderString = placeholder;
 
   if (bold) {
     label.setFont(NSFont.boldSystemFontOfSize(size));
@@ -214,98 +220,145 @@ function toCamel(str) {
     var dialogContents = [{
       type: 'label',
       id: 'caseLabel',
-      value: 'Filename format:'
+      value: 'Name format:',
+      paddingBottom: -2
     }, {
       type: 'select',
       id: 'selectCase',
-      value: ['kebab-case', 'snake_case', 'camelCase']
+      value: ['kebab-case', 'snake_case', 'camelCase'],
+      paddingBottom: 8
     }, {
       type: 'checkbox',
-      id: 'ignoreSlashes',
-      label: 'Ignore Slashes',
-      value: 'slashes',
-      default: false
+      id: 'fullName',
+      label: 'Use full layer name',
+      value: 'full-name',
+      default: true,
+      paddingBottom: 8
     }, {
-      type: 'checkbox',
-      id: 'prefixCheckbox',
-      label: 'Add Prefix',
-      value: 'prefix',
-      default: false
+      type: 'label',
+      id: 'prefixLabel',
+      value: 'Name prefix:',
+      paddingBottom: -2
     }, {
       type: 'text',
-      value: ''
+      id: 'prefix',
+      value: '',
+      placeholder: 'Prefix',
+      paddingBottom: 8
+    }, {
+      type: 'label',
+      id: 'fileFormat',
+      value: 'File format:',
+      paddingBottom: -2
+    }, {
+      type: 'select',
+      id: 'selectFormat',
+      value: ['svg', 'png', 'jpg'],
+      paddingBottom: 8
     }];
     var numElements = dialogContents.length;
     var elemHeight = 24;
-    var totalHeight = numElements * elemHeight;
+    var totalPadding = dialogContents.map(function (elem) {
+      return elem.paddingBottom;
+    }).reduce(function (acc, pad) {
+      return acc + pad;
+    }, 0);
+    var totalHeight = numElements * elemHeight + totalPadding;
     var customView = NSView.alloc().initWithFrame(NSMakeRect(0, 0, 200, totalHeight));
+    var posOfNextElement = 24;
     var viewContents = dialogContents.map(function (element, i) {
-      var type = element.type;
-      var yPos = totalHeight - (i + 1) * elemHeight;
+      var type = element.type; // let padding = (i === 0 || i === 1 || i === 4) ? 0 : element.paddingBottom
+
+      var yPos = totalHeight - posOfNextElement; // ((i+1) * (elemHeight))
+
+      var UIElement;
 
       if (type == 'label') {
-        return createLabel(NSMakeRect(0, yPos, 200, 25), 12, false, element.value);
+        UIElement = createLabel(NSMakeRect(0, yPos, 200, elemHeight), 12, false, element.value);
       } else if (type == 'select') {
-        return createSelect(NSMakeRect(0, yPos, 200, 25), element.value);
+        UIElement = createSelect(NSMakeRect(0, yPos, 200, elemHeight), element.value);
       } else if (type == 'checkbox') {
-        return createCheckbox(NSMakeRect(0, yPos, 200, 25), element.label, element.value, element.default, true);
+        UIElement = createCheckbox(NSMakeRect(0, yPos, 200, elemHeight), element.label, element.value, element.default, true);
       } else if (type == 'text') {
-        return createTextbox(NSMakeRect(0, yPos, 200, 25), 12, false, element.value);
+        UIElement = createTextbox({
+          frame: NSMakeRect(0, yPos, 200, elemHeight),
+          size: 12,
+          text: element.value,
+          placeholder: element.placeholder
+        });
       }
+
+      posOfNextElement += elemHeight + element.paddingBottom;
+      return UIElement;
     });
     viewContents.forEach(function (subview) {
       customView.addSubview(subview);
     });
     dialog.setAccessoryView(customView); // Run the dialog
 
-    if (dialog.runModal() != NSAlertFirstButtonReturn) {
+    if (dialog.runModal() !== NSAlertFirstButtonReturn) {
       return;
-    } // Save the responses from that modal
+    } else {
+      var caseElemIdx = dialogContents.findIndex(function (elem) {
+        return elem.id === 'selectCase';
+      });
+      var prefixElemIdx = dialogContents.findIndex(function (elem) {
+        return elem.id === 'prefix';
+      });
+      var fullNameElemIdx = dialogContents.findIndex(function (elem) {
+        return elem.id === 'fullName';
+      });
+      var formatElemIdx = dialogContents.findIndex(function (elem) {
+        return elem.id === 'selectFormat';
+      }); // Save the responses from that modal
 
+      var caseIndex = viewContents[caseElemIdx].indexOfSelectedItem();
+      var prefix = viewContents[prefixElemIdx].stringValue();
+      var isFullName = viewContents[fullNameElemIdx].state();
+      var formatIndex = viewContents[formatElemIdx].indexOfSelectedItem(); // sketch.UI.message(`${caseIndex}, ${prefix}, ${isFullName}, ${formatIndex}`)
+      // Create an Open dialog
 
-    var caseIndex = viewContents[1].indexOfSelectedItem();
-    var ignoreSlashes = viewContents[2].state();
-    var showPrefix = viewContents[3].state();
-    var prefix = viewContents[4].stringValue(); // Create an Open dialog
+      var open = NSOpenPanel.openPanel();
+      open.canChooseFiles = false;
+      open.canChooseDirectories = true;
+      open.canCreateDirectories = true; // run the open dialog
 
-    var open = NSOpenPanel.openPanel();
-    open.canChooseFiles = false;
-    open.canChooseDirectories = true;
-    open.canCreateDirectories = true; // run the open dialog
+      if (open.runModal()) {
+        var path = open.URL().path();
+        var layers = selection.layers; // Preserve the original layer names so we can change them back
 
-    if (open.runModal()) {
-      var path = open.URL().path();
-      var layers = selection.layers;
-      var ogLayerNames = layers.map(function (layer) {
-        return layer.name;
-      }); // Change the file names appropriately
+        var originalLayerNames = layers.map(function (layer) {
+          return layer.name;
+        }); // Get the selected file format
 
-      layers.forEach(function (layer) {
-        var name = showPrefix ? prefix + layer.name : layer.name;
-        name = ignoreSlashes ? name.substring(name.lastIndexOf('/') + 1, name.length) : name;
+        var fileFormat = dialogContents[formatElemIdx].value[formatIndex]; // Change the file names appropriately
 
-        if (caseIndex === 0) {
-          layer.name = toKebab(name);
-          console.log(layer.name);
-        } else if (caseIndex === 1) {
-          layer.name = toSnake(layer.name);
-        } else if (caseIndex === 2) {
-          layer.name = toCamel(layer.name);
-        }
-      }); // Set the format and save path
+        layers.forEach(function (layer) {
+          var newName = isFullName ? layer.name : layer.name.substring(layer.name.lastIndexOf('/') + 1, layer.name.length);
+          newName = !!prefix ? "".concat(prefix, "-").concat(newName) : newName;
 
-      var exportOptions = {
-        formats: 'svg',
-        output: path // Export the layers
+          if (caseIndex === 0) {
+            layer.name = toKebab(newName);
+          } else if (caseIndex === 1) {
+            layer.name = toSnake(newName);
+          } else if (caseIndex === 2) {
+            layer.name = toCamel(newName);
+          }
+        }); // Set the format and save path
 
-      };
-      sketch__WEBPACK_IMPORTED_MODULE_0___default.a.export(layers, exportOptions); // Reset the layer names
+        var exportOptions = {
+          formats: fileFormat,
+          output: path // Export the layers
 
-      layers.forEach(function (layer, i) {
-        layer.name = ogLayerNames[i];
-      }); // Show confirmation
+        };
+        sketch__WEBPACK_IMPORTED_MODULE_0___default.a.export(layers, exportOptions); // Reset the layer names
 
-      sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("Exported ".concat(layers.length, " layers"));
+        layers.forEach(function (layer, i) {
+          layer.name = originalLayerNames[i];
+        }); // Show confirmation
+
+        sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("Exported ".concat(layers.length, " layers"));
+      }
     }
   }
 });
