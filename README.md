@@ -1,8 +1,8 @@
-# Batch Export & Rename
+# Sketch Flat Export
 
 ## Purpose
 
-This plugin lets you export your symbols and layers with manageable filenames, without needing to change your Sketch symbol nesting or naming conventions.
+This plugin lets you export your symbols and layers with manageable filenames into one folder, without needing to change your Sketch symbol nesting or naming conventions.
 
 #### These Sketch symbols...
 ![sketch-symbols](assets/img-sketch-symbols.png)
