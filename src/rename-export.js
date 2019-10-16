@@ -103,7 +103,7 @@ export default function(context) {
     // Create a custom dialog
     var dialog = NSAlert.alloc().init();
 
-    dialog.setMessageText("Rename and Export");
+    dialog.setMessageText("Flat Export");
     dialog.addButtonWithTitle("Continue");
     dialog.addButtonWithTitle("Cancel");
 

@@ -2,18 +2,18 @@
   "compatibleVersion": 3,
   "bundleVersion": 1,
   "icon": "icon.png",
-  "name": "Batch Export & Rename",
+  "name": "Flat Export",
   "identifier": "com.adamthompson.sketch.batch-export-rename",
   "commands": [
     {
-      "name": "Batch Export & Rename",
+      "name": "Flat export",
       "identifier": "batch-rename-export",
       "script": "./rename-export.js",
       "shortcut": "ctrl shift e"
     }
   ],
   "menu": {
-    "title": "Batch Export & Rename",
+    "title": "Flat Export",
     "items": [
       "batch-rename-export"
     ]

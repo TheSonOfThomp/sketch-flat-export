@@ -2,18 +2,18 @@
   "compatibleVersion": 3,
   "bundleVersion": 1,
   "icon": "icon.png",
-  "name": "Batch Export & Rename",
+  "name": "Flat Export",
   "identifier": "com.adamthompson.sketch.batch-export-rename",
   "commands": [
     {
-      "name": "Batch Export & Rename",
+      "name": "Flat export",
       "identifier": "batch-rename-export",
       "script": "rename-export.js",
       "shortcut": "ctrl shift e"
     }
   ],
   "menu": {
-    "title": "Batch Export & Rename",
+    "title": "Flat Export",
     "items": [
       "batch-rename-export"
     ]
@@ -21,7 +21,7 @@
   "version": "2.2.0",
   "description": "Use this plugin to batch export layers with consistent filenames",
   "disableCocoaScriptPreprocessor": true,
-  "appcast": "https://raw.githubusercontent.com/TheSonOfThomp/Batch-Export-Rename/master/.appcast.xml",
+  "appcast": "https://raw.githubusercontent.com/TheSonOfThomp/sketch-flat-export/master/.appcast.xml",
   "author": "Adam Thompson",
   "authorEmail": "athompson@newvisions.org"
 }
