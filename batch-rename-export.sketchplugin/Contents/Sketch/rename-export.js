@@ -335,7 +335,8 @@ function toCamel(str) {
 
         layers.forEach(function (layer) {
           var newName = isFullName ? layer.name : layer.name.substring(layer.name.lastIndexOf('/') + 1, layer.name.length);
-          newName = !!prefix ? "".concat(prefix, "-").concat(newName) : newName;
+          newName = prefix == '' // NOT === because prefix is an object (...?)
+          ? newName : "".concat(prefix, "-").concat(newName);
 
           if (caseIndex === 0) {
             layer.name = toKebab(newName);

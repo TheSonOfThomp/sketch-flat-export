@@ -235,9 +235,9 @@ export default function(context) {
         // Change the file names appropriately
         layers.forEach(layer => {
           let newName = isFullName ? layer.name : layer.name.substring(layer.name.lastIndexOf('/') + 1, layer.name.length) 
-          newName = !!prefix 
-            ? `${prefix}-${newName}`
-            : newName
+          newName = prefix == '' // NOT === because prefix is an object (...?)
+            ? newName
+            : `${prefix}-${newName}`
           
           if (caseIndex === 0) {
             layer.name = toKebab(newName)
