@@ -22,7 +22,7 @@
   "devDependencies": {
     "@skpm/builder": "^0.5.11"
   },
-  "author": "Adam Thompson <athompson@newvisions.org>",
+  "author": "Adam Thompson <adam.thompson.dev@icloud.com>",
   "repository": "https://github.com/TheSonOfThomp/sketch-flat-export",
-  "description": "Use this plugin to batch export layers with consistent filenames"
+  "description": "Use this plugin to batch export layers to a single folder."
 }

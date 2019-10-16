@@ -18,15 +18,21 @@ To use, press `⌃ Ctrl` + `⇧ Shift` + `E` to open the dialog.
 
 ![dialog](assets/img-dialog.png)
 
-### Filename format
+## Parameters
+
+### Name format
 Choose between `kebab-case`, `snake_case` or `camelCase`
 
-### Ignore slashes
-Ignores any slashes as used in symbols
-e.g. `Icon/Search` exports as `search.svg`
+### Use full layer name
+Uses the full layer name when exporting
 
-### Add Prefix
+e.g. The layer `Icon/Search` exports as: `icon-search.svg`.
+When turned off, this same layer will export as: `search.svg`
+
+### Prefix
 Text to add to the beginning of the filename
-e.g. `icon-seach.svg`
 
-***Note: Currently only `svg` files are supported.***
+e.g. `company-icon-search.svg`
+
+### File format
+Export as `svg`, `png`, or `jpg`
