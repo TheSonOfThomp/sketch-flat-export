@@ -8,7 +8,7 @@
     {
       "name": "Flat export",
       "identifier": "batch-rename-export",
-      "script": "rename-export.js",
+      "script": "__rename-export.js",
       "shortcut": "ctrl shift e"
     }
   ],

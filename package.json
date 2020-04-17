@@ -20,7 +20,7 @@
     "debugger": "skpm log -f"
   },
   "devDependencies": {
-    "@skpm/builder": "^0.5.11"
+    "@skpm/builder": "^0.7.5"
   },
   "author": "Adam Thompson <adam.thompson.dev@icloud.com>",
   "repository": "https://github.com/TheSonOfThomp/sketch-flat-export",
