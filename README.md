@@ -12,7 +12,7 @@ This plugin lets you export your symbols and layers with manageable filenames in
 
 ## Usage
 
-To install, double click the `.sketchplugin` file, or move it to your plugins folder.
+Download the <a href="./flat-export.sketchplugin" download>Sketch Plugin file</a>, and double click it, or move it to your plugins folder manually.
 
 To use, press `⌃ Ctrl` + `⇧ Shift` + `E` to open the dialog.
 
