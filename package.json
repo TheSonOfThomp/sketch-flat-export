@@ -1,6 +1,6 @@
 {
   "name": "sketch-flat-export",
-  "version": "2.2.8",
+  "version": "2.2.9",
   "engines": {
     "sketch": ">=3.0"
   },
