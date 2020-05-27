@@ -13,3 +13,5 @@ npm-debug.log
 .idea
 
 .skpmrc
+
+*/*.sketch

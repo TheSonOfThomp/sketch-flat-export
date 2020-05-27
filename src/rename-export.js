@@ -25,7 +25,6 @@ export default function(context) {
   } else {
     // Run the dialog
     if (dialog.runModal() !== NSAlertFirstButtonReturn) {
-      sketch.UI.message('Canceled')
       return
     } else {
       const caseElemIdx = DIALOG_ELEMENTS.findIndex(elem => elem.id === 'selectCase')
@@ -96,7 +95,7 @@ export default function(context) {
           layer.name = originalLayerNames[i]
         })
         // Show confirmation
-        sketch.UI.message(`Exported ${layers.length} layers. ${fileFormat}, ${path}, ${scale} `)
+        sketch.UI.message(`Exported ${layers.length} layers.`)
       }
     }
   }

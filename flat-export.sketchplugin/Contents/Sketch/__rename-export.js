@@ -321,7 +321,6 @@ __webpack_require__.r(__webpack_exports__);
   } else {
     // Run the dialog
     if (_dialog__WEBPACK_IMPORTED_MODULE_1__["dialog"].runModal() !== NSAlertFirstButtonReturn) {
-      sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message('Canceled');
       return;
     } else {
       var caseElemIdx = _dialog__WEBPACK_IMPORTED_MODULE_1__["DIALOG_ELEMENTS"].findIndex(function (elem) {
@@ -389,7 +388,7 @@ __webpack_require__.r(__webpack_exports__);
           layer.name = originalLayerNames[i];
         }); // Show confirmation
 
-        sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("Exported ".concat(layers.length, " layers. ").concat(fileFormat, ", ").concat(path, ", ").concat(scale, " "));
+        sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message("Exported ".concat(layers.length, " layers."));
       }
     }
   }

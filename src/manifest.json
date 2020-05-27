@@ -1,7 +1,7 @@
 {
   "compatibleVersion": 3,
   "bundleVersion": 1,
-  "icon": "icon.png",
+  "icon": "flat-export-logo.png",
   "name": "Flat Export",
   "identifier": "com.adamthompson.sketch.batch-export-rename",
   "commands": [
