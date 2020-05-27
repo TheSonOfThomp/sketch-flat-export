@@ -18,7 +18,7 @@
       "batch-rename-export"
     ]
   },
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Use this plugin to batch export layers to a single folder.",
   "disableCocoaScriptPreprocessor": true,
   "appcast": "https://raw.githubusercontent.com/TheSonOfThomp/sketch-flat-export/master/.appcast.xml",
