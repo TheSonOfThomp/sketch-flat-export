@@ -1,6 +1,6 @@
 # Sketch Flat Export
 
-![plugin-logo](assets/flat-export-logo.png)
+![plugin-logo](assets/white-flat-export-logo.png)
 
 ## Purpose
 
