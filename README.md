@@ -1,5 +1,7 @@
 # Sketch Flat Export
 
+![plugin-logo](assets/flat-export-logo.png)
+
 ## Purpose
 
 This plugin lets you export your symbols and layers with manageable filenames into one folder, without needing to change your Sketch symbol nesting or naming conventions.
