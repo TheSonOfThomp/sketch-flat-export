@@ -3,13 +3,23 @@
 // -------------------------------------------------
 
 export function toSnake(str) {
+  const delimiter = '_'
   if (typeof str !== 'string') return ""
-  return str.replace(/[\ \\\/\-\–\—]/g, '_').toLowerCase()
+  return str.replace(/[\ \\\/\-\–\—]/g, delimiter)
+    .split(delimiter)
+    .filter(chunk => chunk.length !== 0)
+    .join(delimiter)
+    .toLowerCase()
 }
 
 export function toKebab(str) {
+  const delimiter = '-'
   if (typeof str !== 'string') return ""
-  return str.replace(/[\ \\\/\_]/g, '-').toLowerCase()
+  return str.replace(/[\ \\\/\_]/g, delimiter)
+    .split(delimiter)
+    .filter(chunk => chunk.length !== 0)
+    .join(delimiter)
+    .toLowerCase()
 }
 
 export function toCamel(str) {
