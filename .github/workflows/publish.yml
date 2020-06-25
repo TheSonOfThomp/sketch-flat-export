@@ -13,8 +13,5 @@ jobs:
     - name: Install
       uses: bahmutov/npm-install@v1.1.0
     
-    - name: Build
-      run: npm run build
-    
     - name: Publish
       run: npm run publish
