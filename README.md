@@ -1,8 +1,8 @@
 # Sketch Flat Export
 
-![plugin-logo](assets/white-flat-export-logo.png)
-
 ![CI](https://github.com/TheSonOfThomp/sketch-flat-export/workflows/CI/badge.svg)
+
+![plugin-logo](assets/white-flat-export-logo.png)
 
 ## Purpose
 
