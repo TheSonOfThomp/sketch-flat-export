@@ -16,13 +16,18 @@
     "build": "skpm-build",
     "watch": "skpm-build --watch",
     "start": "skpm-build --watch --run",
+    "test": "jest",
     "postinstall": "npm run build && skpm-link",
     "debugger": "skpm log -f"
   },
   "devDependencies": {
-    "@skpm/builder": "^0.7.7"
+    "@skpm/builder": "^0.7.7",
+    "jest": "^26.1.0"
   },
   "author": "Adam Thompson <adam.thompson.dev@icloud.com>",
   "repository": "https://github.com/TheSonOfThomp/sketch-flat-export",
-  "description": "Use this plugin to batch export layers to a single folder."
+  "description": "Use this plugin to batch export layers to a single folder.",
+  "dependencies": {
+    "jest-esm-transformer": "^1.0.0"
+  }
 }
