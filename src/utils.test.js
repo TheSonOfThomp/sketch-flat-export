@@ -1,7 +1,7 @@
 import {toSnake, toKebab, toCamel, toPascal} from './utils'
 
 test('toSnake', () => {
-  expect(toSnake('Icon/Arrow/Left')).toBe('fail');
+  expect(toSnake('Icon/Arrow/Left')).toBe('icon_arrow_left');
   expect(toSnake('Icon/ArrowLeft')).toBe('icon_arrowleft');
   expect(toSnake('Icon / Arrow / Left')).toBe('icon_arrow_left');
   expect(toSnake(' Icon/ Arrow /Left ')).toBe('icon_arrow_left');
