@@ -3,10 +3,13 @@ name: Publish
 on:
   push:
     branches: [ master ]
+    # ignore commits made after publishing
+    tags-ignore: 
+      - v*
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
     # Install
