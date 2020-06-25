@@ -27,8 +27,15 @@ export function toKebab(str) {
 export function toCamel(str) {
   if (typeof str !== 'string') return ""
   str = delimitString(str, ' ').split(allDelimiters)
-  for (var i = 0; i < str.length; i++) {
-    str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+  if(str.length > 1) {
+    for (var i = 1; i < str.length; i++) {
+      str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+    }
   }
   return str.join('');
+}
+
+export function toPascal(str) {
+  const camel = toCamel(str)
+  return camel.charAt(0).toUpperCase() + camel.slice(1)
 }
