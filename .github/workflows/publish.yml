@@ -22,7 +22,7 @@ jobs:
       run: npm i -g skpm
     
     - name: Login
-      run: skpm login ${{ secrets.GITHUB_TOKEN }}
+      run: skpm login ${{ secrets.GH_ACCESS_TOKEN }}
     
     - name: Publish
       run: npm run publish
