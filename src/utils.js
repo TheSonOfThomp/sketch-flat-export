@@ -2,29 +2,31 @@
 // ---------------- Text formatting ----------------
 // -------------------------------------------------
 
-export function toSnake(str) {
-  const delimiter = '_'
-  if (typeof str !== 'string') return ""
-  return str.replace(/[\ \\\/\-\–\—]/g, delimiter)
+const allDelimiters = /[\ \\\/\_\-\–\—]/g
+
+export function delimitString(str, delimiter) {
+  return str.replace(allDelimiters, delimiter)
     .split(delimiter)
     .filter(chunk => chunk.length !== 0)
     .join(delimiter)
     .toLowerCase()
+}
+
+export function toSnake(str) {
+  const delimiter = '_'
+  if (typeof str !== 'string') return ""
+  return delimitString(str, delimiter)
 }
 
 export function toKebab(str) {
   const delimiter = '-'
   if (typeof str !== 'string') return ""
-  return str.replace(/[\ \\\/\_]/g, delimiter)
-    .split(delimiter)
-    .filter(chunk => chunk.length !== 0)
-    .join(delimiter)
-    .toLowerCase()
+  return delimitString(str, delimiter)
 }
 
 export function toCamel(str) {
   if (typeof str !== 'string') return ""
-  str = str.toLowerCase().split(/[\ \\\/\_\-\–\—]/g)
+  str = delimitString(str, ' ').split(allDelimiters)
   for (var i = 0; i < str.length; i++) {
     str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
   }
