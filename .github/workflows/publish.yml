@@ -18,10 +18,11 @@ jobs:
     - name: Install
       uses: bahmutov/npm-install@v1.1.0
     
+    - name: Install SKPM
+      run: npm i -g skpm
+    
     - name: Login
-      run: |
-        npm i -g skpm
-        skpm login ${{ secrets.GITHUB_TOKEN }}
+      run: skpm login ${{ secrets.GITHUB_TOKEN }}
     
     - name: Publish
       run: npm run publish
