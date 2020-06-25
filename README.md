@@ -1,6 +1,7 @@
 # Sketch Flat Export
 
-![CI](https://github.com/TheSonOfThomp/sketch-flat-export/workflows/CI/badge.svg)
+![Test](https://github.com/TheSonOfThomp/sketch-flat-export/workflows/Test/badge.svg)
+![Publish](https://github.com/TheSonOfThomp/sketch-flat-export/workflows/Publish/badge.svg)
 
 ![plugin-logo](assets/white-flat-export-logo.png)
 
