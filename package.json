@@ -17,7 +17,7 @@
     "watch": "skpm-build --watch",
     "start": "skpm-build --watch --run",
     "test": "jest",
-    "publish": "skpm publish minor",
+    "publish": "skpm publish patch",
     "postinstall": "npm run build && skpm-link",
     "debugger": "skpm log -f"
   },
