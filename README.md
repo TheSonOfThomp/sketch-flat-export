@@ -2,6 +2,8 @@
 
 ![plugin-logo](assets/white-flat-export-logo.png)
 
+![CI](https://github.com/TheSonOfThomp/sketch-flat-export/workflows/CI/badge.svg)
+
 ## Purpose
 
 This plugin lets you export your symbols and layers with manageable filenames into one folder, without needing to change your Sketch symbol nesting or naming conventions.
