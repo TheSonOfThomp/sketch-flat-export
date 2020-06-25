@@ -400,40 +400,50 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************!*\
   !*** ./src/utils.js ***!
   \**********************/
-/*! exports provided: toSnake, toKebab, toCamel */
+/*! exports provided: delimitString, toSnake, toKebab, toCamel, toPascal */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "delimitString", function() { return delimitString; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toSnake", function() { return toSnake; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toKebab", function() { return toKebab; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toCamel", function() { return toCamel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toPascal", function() { return toPascal; });
 // -------------------------------------------------
 // ---------------- Text formatting ----------------
 // -------------------------------------------------
+var allDelimiters = /[\ \\\/\_\-\–\—]/g;
+function delimitString(str, delimiter) {
+  return str.replace(allDelimiters, delimiter).split(delimiter).filter(function (chunk) {
+    return chunk.length !== 0;
+  }).join(delimiter).toLowerCase();
+}
 function toSnake(str) {
   var delimiter = '_';
   if (typeof str !== 'string') return "";
-  return str.replace(/[\ \\\/\-\–\—]/g, delimiter).split(delimiter).filter(function (chunk) {
-    return chunk.length !== 0;
-  }).join(delimiter).toLowerCase();
+  return delimitString(str, delimiter);
 }
 function toKebab(str) {
   var delimiter = '-';
   if (typeof str !== 'string') return "";
-  return str.replace(/[\ \\\/\_]/g, delimiter).split(delimiter).filter(function (chunk) {
-    return chunk.length !== 0;
-  }).join(delimiter).toLowerCase();
+  return delimitString(str, delimiter);
 }
 function toCamel(str) {
   if (typeof str !== 'string') return "";
-  str = str.toLowerCase().split(/[\ \\\/\_\-\–\—]/g);
+  str = delimitString(str, ' ').split(allDelimiters);
 
-  for (var i = 0; i < str.length; i++) {
-    str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+  if (str.length > 1) {
+    for (var i = 1; i < str.length; i++) {
+      str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+    }
   }
 
   return str.join('');
+}
+function toPascal(str) {
+  var camel = toCamel(str);
+  return camel.charAt(0).toUpperCase() + camel.slice(1);
 }
 
 /***/ }),
