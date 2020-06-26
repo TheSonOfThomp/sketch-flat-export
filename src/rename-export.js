@@ -1,13 +1,16 @@
 // documentation: https://developer.sketchapp.com/reference/api/
 import sketch from 'sketch'
+import settings from 'sketch/settings'
 
-import { dialog, viewContents, DIALOG_ELEMENTS } from './dialog'
+import { viewContents, DIALOG_ELEMENTS, createDialog } from './dialog'
 
 import {
   toSnake,
   toKebab,
   toCamel
 } from './utils'
+
+const PREFS_KEY = "previous_settings"
 
 // -------------------------------------------------
 // ------------------- The Plugin ------------------
@@ -23,6 +26,11 @@ export default function(context) {
     sketch.UI.message('No layers are selected.')
     return
   } else {
+
+    // Load user settings
+    var previousSettings = settings.settingForKey(PREFS_KEY)
+    const dialog = createDialog(previousSettings)
+
     // Run the dialog
     if (dialog.runModal() !== NSAlertFirstButtonReturn) {
       return
@@ -41,7 +49,17 @@ export default function(context) {
       const scaleValueIndex = viewContents[scaleElemIdx].indexOfSelectedItem();
       
       // sketch.UI.message(`${caseIndex}, ${prefix}, ${isFullName}, ${formatvalueIndex}`)
-      
+
+      // Save user settings
+      let prefs = {
+        "selectCase": DIALOG_ELEMENTS[caseElemIdx].value[caseIndex],
+        "useFullName": new Boolean(isFullName),
+        "prefix": `${prefix}`,
+        "selectFormat": DIALOG_ELEMENTS[formatElemIdx].value[formatvalueIndex],
+        "selectScale": DIALOG_ELEMENTS[scaleElemIdx].value[scaleValueIndex]
+      }
+      settings.setSettingForKey(PREFS_KEY, prefs)
+
       // Create an Open dialog
       const open = NSOpenPanel.openPanel();
       open.canChooseFiles = false

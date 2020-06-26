@@ -97,12 +97,12 @@ var exports =
 /*!***********************!*\
   !*** ./src/dialog.js ***!
   \***********************/
-/*! exports provided: dialog, viewContents, DIALOG_ELEMENTS */
+/*! exports provided: createDialog, viewContents, DIALOG_ELEMENTS */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dialog", function() { return dialog; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createDialog", function() { return createDialog; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "viewContents", function() { return viewContents; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DIALOG_ELEMENTS", function() { return DIALOG_ELEMENTS; });
 /* harmony import */ var _macos_ui__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./macos-ui */ "./src/macos-ui.js");
@@ -157,50 +157,69 @@ var DIALOG_ELEMENTS = [{
   id: 'selectScale',
   value: ['@1x', '@2x', '@3x'],
   paddingBottom: 8
-}]; // Create a custom dialog
+}];
+var viewContents = null; // Create a custom dialog
 
-var dialog = NSAlert.alloc().init();
-dialog.setMessageText(DIALOG_TITLE);
-dialog.addButtonWithTitle("Continue");
-dialog.addButtonWithTitle("Cancel");
-var COUNT_ELEMENTS = DIALOG_ELEMENTS.length;
-var PADDING = DIALOG_ELEMENTS.map(function (elem) {
-  return elem.paddingBottom;
-}).reduce(function (acc, pad) {
-  return acc + pad;
-}, 0);
-var TOTAL_MODAL_HEIGHT = COUNT_ELEMENTS * ELEMENT_HEIGHT + PADDING;
-var customView = NSView.alloc().initWithFrame(NSMakeRect(0, 0, 200, TOTAL_MODAL_HEIGHT));
-var position_next_elem = ELEMENT_HEIGHT;
-var viewContents = DIALOG_ELEMENTS.map(function (element, i) {
-  var type = element.type; // let padding = (i === 0 || i === 1 || i === 4) ? 0 : element.paddingBottom
+function createDialog(previousSetting) {
+  var dialog = NSAlert.alloc().init();
+  dialog.setMessageText(DIALOG_TITLE);
+  dialog.addButtonWithTitle("Continue");
+  dialog.addButtonWithTitle("Cancel");
+  var COUNT_ELEMENTS = DIALOG_ELEMENTS.length;
+  var PADDING = DIALOG_ELEMENTS.map(function (elem) {
+    return elem.paddingBottom;
+  }).reduce(function (acc, pad) {
+    return acc + pad;
+  }, 0);
+  var TOTAL_MODAL_HEIGHT = COUNT_ELEMENTS * ELEMENT_HEIGHT + PADDING;
+  var customView = NSView.alloc().initWithFrame(NSMakeRect(0, 0, 200, TOTAL_MODAL_HEIGHT));
+  var position_next_elem = ELEMENT_HEIGHT;
+  viewContents = DIALOG_ELEMENTS.map(function (element, i) {
+    var type = element.type; // let padding = (i === 0 || i === 1 || i === 4) ? 0 : element.paddingBottom
 
-  var yPos = TOTAL_MODAL_HEIGHT - position_next_elem; // ((i+1) * (ELEMENT_HEIGHT))
+    var yPos = TOTAL_MODAL_HEIGHT - position_next_elem; // ((i+1) * (ELEMENT_HEIGHT))
 
-  var UIElement;
+    var UIElement;
 
-  if (type == 'label') {
-    UIElement = Object(_macos_ui__WEBPACK_IMPORTED_MODULE_0__["createLabel"])(NSMakeRect(0, yPos, 200, ELEMENT_HEIGHT), 12, false, element.value);
-  } else if (type == 'select') {
-    UIElement = Object(_macos_ui__WEBPACK_IMPORTED_MODULE_0__["createSelect"])(NSMakeRect(0, yPos, 200, ELEMENT_HEIGHT), element.value);
-  } else if (type == 'checkbox') {
-    UIElement = Object(_macos_ui__WEBPACK_IMPORTED_MODULE_0__["createCheckbox"])(NSMakeRect(0, yPos, 200, ELEMENT_HEIGHT), element.label, element.value, element.default, true);
-  } else if (type == 'text') {
-    UIElement = Object(_macos_ui__WEBPACK_IMPORTED_MODULE_0__["createTextbox"])({
-      frame: NSMakeRect(0, yPos, 200, ELEMENT_HEIGHT),
-      size: 12,
-      text: element.value,
-      placeholder: element.placeholder
-    });
-  }
+    if (type == 'label') {
+      UIElement = Object(_macos_ui__WEBPACK_IMPORTED_MODULE_0__["createLabel"])(NSMakeRect(0, yPos, 200, ELEMENT_HEIGHT), 12, false, element.value);
+    } else if (type == 'select') {
+      UIElement = Object(_macos_ui__WEBPACK_IMPORTED_MODULE_0__["createSelect"])(NSMakeRect(0, yPos, 200, ELEMENT_HEIGHT), element.value);
+    } else if (type == 'checkbox') {
+      UIElement = Object(_macos_ui__WEBPACK_IMPORTED_MODULE_0__["createCheckbox"])(NSMakeRect(0, yPos, 200, ELEMENT_HEIGHT), element.label, element.value, element.default, true);
+    } else if (type == 'text') {
+      UIElement = Object(_macos_ui__WEBPACK_IMPORTED_MODULE_0__["createTextbox"])({
+        frame: NSMakeRect(0, yPos, 200, ELEMENT_HEIGHT),
+        size: 12,
+        text: element.value,
+        placeholder: element.placeholder
+      });
+    }
 
-  position_next_elem += ELEMENT_HEIGHT + element.paddingBottom;
-  return UIElement;
-});
-viewContents.forEach(function (subview) {
-  customView.addSubview(subview);
-});
-dialog.setAccessoryView(customView);
+    if (typeof previousSetting !== 'undefined') {
+      if (element.id == 'selectCase') {
+        UIElement.selectItemWithTitle(previousSetting.selectCase);
+      } else if (element.id == 'fullName') {
+        UIElement.setEnabled(previousSetting.useFullName);
+      } else if (element.id == 'prefix') {
+        UIElement.setStringValue(previousSetting.prefix);
+      } else if (element.id == 'selectFormat') {
+        UIElement.selectItemWithTitle(previousSetting.selectFormat);
+      } else if (element.id == 'selectScale') {
+        UIElement.selectItemWithTitle(previousSetting.selectScale);
+      }
+    }
+
+    position_next_elem += ELEMENT_HEIGHT + element.paddingBottom;
+    return UIElement;
+  });
+  viewContents.forEach(function (subview) {
+    customView.addSubview(subview);
+  });
+  dialog.setAccessoryView(customView);
+  return dialog;
+}
+
 
 
 /***/ }),
@@ -301,12 +320,16 @@ function createCheckbox(frame, name, value, onstate, enabled) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sketch */ "sketch");
 /* harmony import */ var sketch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sketch__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _dialog__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dialog */ "./src/dialog.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "./src/utils.js");
+/* harmony import */ var sketch_settings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sketch/settings */ "sketch/settings");
+/* harmony import */ var sketch_settings__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sketch_settings__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _dialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dialog */ "./src/dialog.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils */ "./src/utils.js");
 // documentation: https://developer.sketchapp.com/reference/api/
 
 
- // -------------------------------------------------
+
+
+var PREFS_KEY = "previous_settings"; // -------------------------------------------------
 // ------------------- The Plugin ------------------
 // -------------------------------------------------
 
@@ -319,32 +342,44 @@ __webpack_require__.r(__webpack_exports__);
     sketch__WEBPACK_IMPORTED_MODULE_0___default.a.UI.message('No layers are selected.');
     return;
   } else {
-    // Run the dialog
-    if (_dialog__WEBPACK_IMPORTED_MODULE_1__["dialog"].runModal() !== NSAlertFirstButtonReturn) {
+    // Load user settings
+    var previousSettings = sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.settingForKey(PREFS_KEY);
+    var dialog = Object(_dialog__WEBPACK_IMPORTED_MODULE_2__["createDialog"])(previousSettings); // Run the dialog
+
+    if (dialog.runModal() !== NSAlertFirstButtonReturn) {
       return;
     } else {
-      var caseElemIdx = _dialog__WEBPACK_IMPORTED_MODULE_1__["DIALOG_ELEMENTS"].findIndex(function (elem) {
+      var caseElemIdx = _dialog__WEBPACK_IMPORTED_MODULE_2__["DIALOG_ELEMENTS"].findIndex(function (elem) {
         return elem.id === 'selectCase';
       });
-      var prefixElemIdx = _dialog__WEBPACK_IMPORTED_MODULE_1__["DIALOG_ELEMENTS"].findIndex(function (elem) {
+      var prefixElemIdx = _dialog__WEBPACK_IMPORTED_MODULE_2__["DIALOG_ELEMENTS"].findIndex(function (elem) {
         return elem.id === 'prefix';
       });
-      var fullNameElemIdx = _dialog__WEBPACK_IMPORTED_MODULE_1__["DIALOG_ELEMENTS"].findIndex(function (elem) {
+      var fullNameElemIdx = _dialog__WEBPACK_IMPORTED_MODULE_2__["DIALOG_ELEMENTS"].findIndex(function (elem) {
         return elem.id === 'fullName';
       });
-      var formatElemIdx = _dialog__WEBPACK_IMPORTED_MODULE_1__["DIALOG_ELEMENTS"].findIndex(function (elem) {
+      var formatElemIdx = _dialog__WEBPACK_IMPORTED_MODULE_2__["DIALOG_ELEMENTS"].findIndex(function (elem) {
         return elem.id === 'selectFormat';
       });
-      var scaleElemIdx = _dialog__WEBPACK_IMPORTED_MODULE_1__["DIALOG_ELEMENTS"].findIndex(function (elem) {
+      var scaleElemIdx = _dialog__WEBPACK_IMPORTED_MODULE_2__["DIALOG_ELEMENTS"].findIndex(function (elem) {
         return elem.id === 'selectScale';
       }); // Save the responses from that modal
 
-      var caseIndex = _dialog__WEBPACK_IMPORTED_MODULE_1__["viewContents"][caseElemIdx].indexOfSelectedItem();
-      var prefix = _dialog__WEBPACK_IMPORTED_MODULE_1__["viewContents"][prefixElemIdx].stringValue();
-      var isFullName = _dialog__WEBPACK_IMPORTED_MODULE_1__["viewContents"][fullNameElemIdx].state();
-      var formatvalueIndex = _dialog__WEBPACK_IMPORTED_MODULE_1__["viewContents"][formatElemIdx].indexOfSelectedItem();
-      var scaleValueIndex = _dialog__WEBPACK_IMPORTED_MODULE_1__["viewContents"][scaleElemIdx].indexOfSelectedItem(); // sketch.UI.message(`${caseIndex}, ${prefix}, ${isFullName}, ${formatvalueIndex}`)
-      // Create an Open dialog
+      var caseIndex = _dialog__WEBPACK_IMPORTED_MODULE_2__["viewContents"][caseElemIdx].indexOfSelectedItem();
+      var prefix = _dialog__WEBPACK_IMPORTED_MODULE_2__["viewContents"][prefixElemIdx].stringValue();
+      var isFullName = _dialog__WEBPACK_IMPORTED_MODULE_2__["viewContents"][fullNameElemIdx].state();
+      var formatvalueIndex = _dialog__WEBPACK_IMPORTED_MODULE_2__["viewContents"][formatElemIdx].indexOfSelectedItem();
+      var scaleValueIndex = _dialog__WEBPACK_IMPORTED_MODULE_2__["viewContents"][scaleElemIdx].indexOfSelectedItem(); // sketch.UI.message(`${caseIndex}, ${prefix}, ${isFullName}, ${formatvalueIndex}`)
+      // Save user settings
+
+      var prefs = {
+        "selectCase": _dialog__WEBPACK_IMPORTED_MODULE_2__["DIALOG_ELEMENTS"][caseElemIdx].value[caseIndex],
+        "useFullName": new Boolean(isFullName),
+        "prefix": "".concat(prefix),
+        "selectFormat": _dialog__WEBPACK_IMPORTED_MODULE_2__["DIALOG_ELEMENTS"][formatElemIdx].value[formatvalueIndex],
+        "selectScale": _dialog__WEBPACK_IMPORTED_MODULE_2__["DIALOG_ELEMENTS"][scaleElemIdx].value[scaleValueIndex]
+      };
+      sketch_settings__WEBPACK_IMPORTED_MODULE_1___default.a.setSettingForKey(PREFS_KEY, prefs); // Create an Open dialog
 
       var open = NSOpenPanel.openPanel();
       open.canChooseFiles = false;
@@ -359,8 +394,8 @@ __webpack_require__.r(__webpack_exports__);
           return layer.name;
         }); // Get the selected file format
 
-        var fileFormat = _dialog__WEBPACK_IMPORTED_MODULE_1__["DIALOG_ELEMENTS"][formatElemIdx].value[formatvalueIndex];
-        var scale = _dialog__WEBPACK_IMPORTED_MODULE_1__["DIALOG_ELEMENTS"][scaleElemIdx].value[scaleValueIndex].replace(/[@x]/, ''); // Change the file names appropriately
+        var fileFormat = _dialog__WEBPACK_IMPORTED_MODULE_2__["DIALOG_ELEMENTS"][formatElemIdx].value[formatvalueIndex];
+        var scale = _dialog__WEBPACK_IMPORTED_MODULE_2__["DIALOG_ELEMENTS"][scaleElemIdx].value[scaleValueIndex].replace(/[@x]/, ''); // Change the file names appropriately
 
         layers.forEach(function (layer) {
           var newName = isFullName ? layer.name : layer.name.substring(layer.name.lastIndexOf('/') + 1, layer.name.length);
@@ -368,11 +403,11 @@ __webpack_require__.r(__webpack_exports__);
           newName : "".concat(prefix, "-").concat(newName);
 
           if (caseIndex === 0) {
-            layer.name = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["toKebab"])(newName);
+            layer.name = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["toKebab"])(newName);
           } else if (caseIndex === 1) {
-            layer.name = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["toSnake"])(newName);
+            layer.name = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["toSnake"])(newName);
           } else if (caseIndex === 2) {
-            layer.name = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["toCamel"])(newName);
+            layer.name = Object(_utils__WEBPACK_IMPORTED_MODULE_3__["toCamel"])(newName);
           }
         }); // Set the format and save path
 
@@ -456,6 +491,17 @@ function toPascal(str) {
 /***/ (function(module, exports) {
 
 module.exports = require("sketch");
+
+/***/ }),
+
+/***/ "sketch/settings":
+/*!**********************************!*\
+  !*** external "sketch/settings" ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("sketch/settings");
 
 /***/ })
 
