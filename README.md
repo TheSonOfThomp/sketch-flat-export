@@ -40,3 +40,8 @@ e.g. `company-icon-search.svg`
 
 ### File format
 Export as `svg`, `png`, or `jpg`
+
+### Scale
+(since v2.2.3)
+Select export size `@1x`, `@2x` or `@3x`
+
